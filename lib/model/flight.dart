@@ -62,7 +62,7 @@ class Flight extends Equatable {
     this.arrivalGate,
   });
 
-  static Flight fromJson(dynamic flightItem) {
+  static Flight fromJson(Map<dynamic,dynamic> flightItem) {
     return Flight(
         flightStatus: flightItem['flight_status'],
         flightIata: flightItem['flight']['iata'],

@@ -19,19 +19,25 @@ class FlightBloc extends Bloc<FlightEvent,FlightState>{
     if(event is DeparturesRequested){
       yield FlightsLoading();
       try{
-        List<Flight> listOfFlights = await this.flightApiClient.getFlights(depIata: event.depIata);
+         List<dynamic> listOfFlightsJson = await this.flightApiClient.getFlights(depIata:  event.depIata);
+        final List<Flight> listOfFlights = listOfFlightsJson.map((e){
+          print(e);
+          return Flight.fromJson(e);}).toList();
         yield FlightsLoaded(listOfFlights: listOfFlights);
-      }catch(_){
+      }catch(error){
         yield FlightsInFailure();
+        throw error;
       }
       
     }else if(event is ArrivalRequested){
-      try{
+      /* try{
         List<Flight> listOfFlights = await this.flightApiClient.getFlights(depIata: event.arrIata);
         yield FlightsLoaded(listOfFlights: listOfFlights);
       }catch(_){
         yield FlightsInFailure();
-      }
+        
+        
+      } */
     }
   } 
 }
