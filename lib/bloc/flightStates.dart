@@ -14,11 +14,21 @@ class InitialState extends FlightState{}
 
 class FlightsLoading extends FlightState{}
 
-class FlightsLoaded extends FlightState{
+class DeparturesLoaded extends FlightState{
 
 final List<Flight> listOfFlights;
 
-FlightsLoaded({required this.listOfFlights});
+DeparturesLoaded({required this.listOfFlights});
+
+@override
+List<Flight> get props=>listOfFlights;
+}
+
+class ArrivalsLoaded extends FlightState{
+
+final List<Flight> listOfFlights;
+
+ArrivalsLoaded({required this.listOfFlights});
 
 @override
 List<Flight> get props=>listOfFlights;

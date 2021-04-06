@@ -15,29 +15,33 @@ class FlightBloc extends Bloc<FlightEvent, FlightState> {
       yield FlightsLoading();
       try {
         //ToDo: handle different search criteria
-        List<dynamic> listOfFlightsJson = await this
+        List<dynamic> listOfDeparturesJson = await this
             .flightApiClient
-            .getFlights(depIata: event.depIata, flightStatus: 'scheduled');
-        final List<Flight> listOfFlights = listOfFlightsJson.map((e) {
+            .getFlights(depIata: event.depIata);
+        final List<Flight> listOfDepartures = listOfDeparturesJson.map((e) {
           //print(e);
           return Flight.fromJson(e);
         }).toList();
-        print(listOfFlights);
-        yield FlightsLoaded(listOfFlights: listOfFlights);
+        // print(listOfFlights);
+        yield DeparturesLoaded(listOfFlights: listOfDepartures);
       } catch (error) {
         yield FlightsInFailure();
         throw error;
       }
-    } else if (event is ArrivalRequested) {
-      /* try{
-        List<Flight> listOfFlights = await this.flightApiClient.getFlights(depIata: event.arrIata);
-        yield FlightsLoaded(listOfFlights: listOfFlights);
-      }catch(_){
+    } else if (event is ArrivalsRequested) {
+      yield FlightsLoading();
+      try {
+        List<dynamic> listOfArrivalsJson = await this
+            .flightApiClient
+            .getFlights(arrIata: event.arrIata, depOrarr: 'arrival');
+        final List<Flight> listOfArrivals = listOfArrivalsJson.map((e) {
+          return Flight.fromJson(e);
+        }).toList();
+        yield ArrivalsLoaded(listOfFlights: listOfArrivals);
+      } catch (error) {
         yield FlightsInFailure();
-        
-        
-      } */
+        throw error;
+      }
     }
-    
   }
 }

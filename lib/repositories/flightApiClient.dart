@@ -17,7 +17,7 @@ class FlightAPIClient {
       flightSearchMap = {'arr_iata': arrIata, 'flight_status': flightStatus, 'airline_name': airlineName , 'access_key':'e52281328ef9c7b99773149c07fae8fd' };
     }
 
-    final url = Uri.http(baseUrlFlight, 'v1/flights', flightSearchMap);
+    final url = Uri.http(baseUrlFlight, '/v1/flights', flightSearchMap);
     print(url);
     http.Response response;
     try{

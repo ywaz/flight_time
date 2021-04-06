@@ -12,8 +12,8 @@ class DeparturesRequested extends FlightEvent {
   DeparturesRequested({required this.depIata});
 }
 
-class ArrivalRequested extends FlightEvent {
+class ArrivalsRequested extends FlightEvent {
   final String arrIata;
-  ArrivalRequested({required this.arrIata});
+  ArrivalsRequested({required this.arrIata});
 }
 

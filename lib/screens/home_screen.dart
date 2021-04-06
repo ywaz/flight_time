@@ -11,9 +11,9 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<FlightBloc, FlightState>(
       builder: (ctx, state) {
         return Scaffold(
-          appBar: state is FlightsLoaded
+          appBar: (state is DeparturesLoaded || state is ArrivalsLoaded || state is FlightsLoading)
               ? AppBar(
-                  title: Center(child: Text('Nice')),
+                  title: Center(child: Text('Fez')),
                   backgroundColor: Theme.of(context).canvasColor,
                 )
               : AppBar(
@@ -28,7 +28,11 @@ class HomeScreen extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
-                                onPressed: (){BlocProvider.of<FlightBloc>(context).add(DeparturesRequested(depIata: 'nce'));}, icon: Icon(Icons.search)),
+                                onPressed: () {
+                                  BlocProvider.of<FlightBloc>(context)
+                                      .add(DeparturesRequested(depIata: 'fez'));
+                                },
+                                icon: Icon(Icons.search)),
                             labelText: 'City',
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15))),
@@ -41,8 +45,10 @@ class HomeScreen extends StatelessWidget {
                   ? Center(
                       child: CircularProgressIndicator(),
                     )
-                  : state is FlightsLoaded
-                      ? FlightWidget(listOfFlights: state.listOfFlights,)
+                  : state is DeparturesLoaded
+                      ? FlightWidget(listOfFlights: state.listOfFlights)
+                      :state is ArrivalsLoaded?
+                      FlightWidget(listOfFlights: state.listOfFlights)
                       : Center(
                           child: Text('Error'),
                         ),
