@@ -18,7 +18,7 @@ class FlightAPIClient {
     }
 
     final url = Uri.http(baseUrlFlight, 'v1/flights', flightSearchMap);
-    //print(url);
+    print(url);
     http.Response response;
     try{
        response = await httpClient.get(url);

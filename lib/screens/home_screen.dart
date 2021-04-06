@@ -1,7 +1,7 @@
 import 'package:flight_time/bloc/flightBloc.dart';
 import 'package:flight_time/bloc/flightStates.dart';
 import 'package:flight_time/bloc/flightEvents.dart';
-import 'package:flight_time/widgets/flight_screen.dart';
+import 'package:flight_time/widgets/flight_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           appBar: state is FlightsLoaded
               ? AppBar(
-                  title: Center(child: Text('Flights Loaded')),
+                  title: Center(child: Text('Nice')),
                   backgroundColor: Theme.of(context).canvasColor,
                 )
               : AppBar(
@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
-                                onPressed: (){BlocProvider.of<FlightBloc>(context).add(DeparturesRequested(depIata: 'fez'));}, icon: Icon(Icons.search)),
+                                onPressed: (){BlocProvider.of<FlightBloc>(context).add(DeparturesRequested(depIata: 'nce'));}, icon: Icon(Icons.search)),
                             labelText: 'City',
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15))),
@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                       child: CircularProgressIndicator(),
                     )
                   : state is FlightsLoaded
-                      ? FlightScreen()
+                      ? FlightWidget(listOfFlights: state.listOfFlights,)
                       : Center(
                           child: Text('Error'),
                         ),
