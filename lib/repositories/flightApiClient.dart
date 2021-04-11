@@ -25,7 +25,7 @@ class FlightAPIClient {
     }catch(error){
       print("an error was faced"); 
       throw (error);  
-      //Exception('error getting departure flights from $depIata');
+      
     }
     
     final jsonDecodedResponse = jsonDecode(response.body) as Map<dynamic,dynamic>;

@@ -12,7 +12,7 @@ class FlightBloc extends Bloc<FlightEvent, FlightState> {
   @override
   Stream<FlightState> mapEventToState(FlightEvent event) async* {
     if (event is DeparturesRequested) {
-      yield FlightsLoading();
+      yield FlightsLoading(city: event.depIata);
       try {
         //ToDo: handle different search criteria
         List<dynamic> listOfDeparturesJson = await this
@@ -23,13 +23,13 @@ class FlightBloc extends Bloc<FlightEvent, FlightState> {
           return Flight.fromJson(e);
         }).toList();
         // print(listOfFlights);
-        yield DeparturesLoaded(listOfFlights: listOfDepartures);
+        yield DeparturesLoaded(city: event.depIata,listOfFlights: listOfDepartures);
       } catch (error) {
         yield FlightsInFailure();
         throw error;
       }
     } else if (event is ArrivalsRequested) {
-      yield FlightsLoading();
+      yield FlightsLoading(city: event.arrIata);
       try {
         List<dynamic> listOfArrivalsJson = await this
             .flightApiClient
@@ -37,11 +37,13 @@ class FlightBloc extends Bloc<FlightEvent, FlightState> {
         final List<Flight> listOfArrivals = listOfArrivalsJson.map((e) {
           return Flight.fromJson(e);
         }).toList();
-        yield ArrivalsLoaded(listOfFlights: listOfArrivals);
+        yield ArrivalsLoaded(city: event.arrIata,listOfFlights: listOfArrivals);
       } catch (error) {
         yield FlightsInFailure();
         throw error;
       }
+    }else if (event is BackToHome){
+      yield InitialState();
     }
   }
 }

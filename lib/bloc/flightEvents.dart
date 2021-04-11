@@ -5,7 +5,9 @@ abstract class FlightEvent extends Equatable{
 
   List<dynamic> get props => [];
 
-} 
+}
+
+class BackToHome extends FlightEvent{}
 
 class DeparturesRequested extends FlightEvent {
   final String depIata;
