@@ -12,9 +12,9 @@ class FlightAPIClient {
 
     Map<String, String> flightSearchMap = {};
     if(depOrarr == 'departure' ){
-      flightSearchMap = {'dep_iata': depIata, 'flight_status': flightStatus, 'airline_name': airlineName , 'access_key':'e52281328ef9c7b99773149c07fae8fd' };
+      flightSearchMap = {'dep_iata': depIata, 'flight_status': flightStatus, 'airline_name': airlineName , 'access_key':'$apiKey' };
     }else if(depOrarr == 'arrival'){
-      flightSearchMap = {'arr_iata': arrIata, 'flight_status': flightStatus, 'airline_name': airlineName , 'access_key':'e52281328ef9c7b99773149c07fae8fd' };
+      flightSearchMap = {'arr_iata': arrIata, 'flight_status': flightStatus, 'airline_name': airlineName , 'access_key':'$apiKey' };
     }
 
     final url = Uri.http(baseUrlFlight, '/v1/flights', flightSearchMap);
@@ -27,9 +27,10 @@ class FlightAPIClient {
       throw (error);  
       
     }
-    
-    final jsonDecodedResponse = jsonDecode(response.body) as Map<dynamic,dynamic>;
-    return jsonDecodedResponse['data'];
+  
+    final List<dynamic> jsonDecodedResponse = jsonDecode(response.body)['data'];
+    return jsonDecodedResponse;
+
     }
 
     

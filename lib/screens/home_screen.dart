@@ -13,13 +13,13 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<FlightBloc, FlightState>(
       builder: (ctx, state) {
         return Scaffold(
-          appBar: (state is DeparturesLoaded ||
+          appBar: AppBar(
+            title: (state is DeparturesLoaded ||
                   state is ArrivalsLoaded ||
                   state is FlightsLoading)
-              ? AppBar(
-                  title: Center(child: Text(state.props.first)),
-                  backgroundColor: Theme.of(context).canvasColor,
-                  actions: [
+              ? Center(child: Text(state.props.first)): const Center(child: Text('Flight Time')),
+            backgroundColor: Theme.of(context).canvasColor,
+            actions: [
                     IconButton(
                         onPressed: () {
                           BlocProvider.of<FlightBloc>(context)
@@ -27,11 +27,7 @@ class HomeScreen extends StatelessWidget {
                         },
                         icon: Icon(Icons.autorenew))
                   ],
-                )
-              : AppBar(
-                  title: Center(child: Text('Flight Time')),
-                  backgroundColor: Theme.of(context).canvasColor,
-                ),
+          ), 
           body: state is InitialState
               ? SearchBarWidget()
               : state is FlightsLoading

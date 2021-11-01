@@ -1,29 +1,27 @@
 
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 
 class Flight extends Equatable {
-  String flightStatus,
+  final String flightStatus,
       departureTimezone,
       departureIata,
       flightIata,
       arrivalIata,
-      arrivalTimezone;
+      arrivalTimezone,
+      arrivalScheduled,
+      departureScheduled;
 
-  String? arrivalTerminal,
+  final String? arrivalTerminal,
       departureTerminal,
       departureAirport,
       arrivalAirport,
       departureDelay,
       departureGate,
       arrivalDelay,
-      arrivalGate;
-
-  DateTime departureScheduled,
-      arrivalScheduled
-      ;
-
-  DateTime? arrivalActual, departureActual, departureEstimated, arrivalEstimated;
-
+      arrivalGate,arrivalActual, departureActual, departureEstimated, arrivalEstimated;
+      
+      
   @override
   List<Object> get props => [
         flightStatus,
@@ -61,28 +59,32 @@ class Flight extends Equatable {
     this.arrivalGate,
   });
 
+//  DateTime.parse(flightItem['departure']['scheduled'])
+// DateTime.parse(flightItem['arrival']['estimated'])
+
   static Flight fromJson(Map<dynamic,dynamic> flightItem) {
+    print(flightItem['departure']['scheduled']);
 
     //ToDo: handle Actual arrival qnd departure
     return Flight(
         flightStatus: flightItem['flight_status'].toString(),
         flightIata: flightItem['flight']['iata'].toString(),
         departureAirport: flightItem['departure']['airport'].toString(),
-        departureTimezone: flightItem['departure']['timezone'].toString(),
+        departureTimezone: flightItem['departure']['timezone'].split('/')[1], // split timezone initially as europe/paris
         departureTerminal: flightItem['departure']['terminal'].toString(),
-        departureScheduled: DateTime.parse(flightItem['departure']['scheduled']),
-        arrivalScheduled: DateTime.parse(flightItem['arrival']['scheduled']),
-        arrivalEstimated: DateTime.parse(flightItem['arrival']['estimated']),
+        departureScheduled: DateFormat("MMM-d HH:mm").format(DateTime.parse(flightItem['departure']['scheduled'])),
+        arrivalScheduled: DateFormat("MMM-d HH:mm").format(DateTime.parse(flightItem['arrival']['scheduled'])),
+        arrivalEstimated:  DateFormat("MMM-d HH:mm").format(DateTime.parse(flightItem['arrival']['estimated'])),
         arrivalIata: flightItem['arrival']['iata'].toString(),
-        arrivalTimezone: flightItem['arrival']['timezone'].toString(),
-        departureEstimated: DateTime.parse(flightItem['arrival']['estimated']),
+        arrivalTimezone: flightItem['arrival']['timezone'].split('/')[1],
+        departureEstimated: DateFormat("MMM-d HH:mm").format(DateTime.parse(flightItem['departure']['estimated'])),
         departureIata: flightItem['departure']['iata'].toString(),
-        arrivalActual: DateTime.now() /*DateTime.parse(flightItem['arrival']['actual'])*/, 
+        arrivalActual: DateFormat("MMM-d HH:mm").format(DateTime.now())/*DateTime.parse(flightItem['arrival']['actual'])*/, 
         arrivalAirport: flightItem['arrival']['airport'].toString(),
         arrivalDelay: flightItem['arrival']['delay'].toString(),
         arrivalGate: flightItem['arrival']['gate'].toString(),
         arrivalTerminal: flightItem['arrival']['terminal'].toString(),
-        departureActual: DateTime.now()/*DateTime.parse(flightItem['departure']['actual'])*/,
+        departureActual: DateFormat("MMM-d HH:mm").format(DateTime.now())/*DateTime.parse(flightItem['departure']['actual'])*/,
         departureDelay: flightItem['departure']['delay'].toString(),
         departureGate: flightItem['departure']['gate'].toString());
   }

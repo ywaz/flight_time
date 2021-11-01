@@ -44,8 +44,8 @@ class FlightWidget extends StatelessWidget {
                           color: Theme.of(context).canvasColor,
                           child: ListTile(
                             leading: Text(currentState is DeparturesLoaded
-                                ? listOfFlights[element].arrivalIata
-                                : listOfFlights[element].departureIata),
+                                ? listOfFlights[element].arrivalTimezone
+                                : listOfFlights[element].departureTimezone),
                             title: Text(currentState is DeparturesLoaded
                                 ? listOfFlights[element]
                                     .departureScheduled
